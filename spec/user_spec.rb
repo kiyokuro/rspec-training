@@ -2,30 +2,20 @@ require "spec_helper"
 
 RSpec.describe User do
   describe "#greet" do
-    before do
-      @params = { name: "たろう" }
-    end
+    subject { user.greet }
+
+    let(:user) { User.new(name: "たろう", age: age) }
 
     context "12歳以下の場合" do
-      before do
-        @params.merge!(age: 12)
-      end
+      let(:age) { 12 }
 
-      it "ひらがなで答えること" do
-        user = User.new(@params)
-        expect(user.greet).to eq "ぼくはたろうだよ。"
-      end
+      it { is_expected.to eq "ぼくはたろうだよ。" }
     end
 
     context "13歳以上の場合" do
-      before do
-        @params.merge!(age: 13)
-      end
+      let(:age) { 13 }
 
-      it "漢字で答えること" do
-        user = User.new(@params)
-        expect(user.greet).to eq "僕はたろうです。"
-      end
+      it { is_expected.to eq "僕はたろうです。" }
     end
   end
 end
