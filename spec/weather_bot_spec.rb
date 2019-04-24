@@ -11,7 +11,7 @@ RSpec.describe WeatherBot do
 
     context "エラーが発生しなかった時" do
       it 'エラーなく予報を通知すること' do
-        expect(slack_client_mock).to receive(:ping)
+        expect(slack_client_mock).to receive(:ping).with('明日は晴れです☀️')
         expect { weather_bot.notify_forecast }.not_to raise_error
       end
     end
