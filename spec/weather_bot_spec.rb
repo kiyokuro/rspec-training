@@ -9,9 +9,20 @@ RSpec.describe WeatherBot do
       allow(weather_bot).to receive(:slack_client).and_return(slack_client_mock)
     end
 
-    it 'エラーなく予報を通知すること' do
-      expect(slack_client_mock).to receive(:ping)
-      expect { weather_bot.notify_forecast }.not_to raise_error
+    context "エラーが発生しなかった時" do
+      it 'エラーなく予報を通知すること' do
+        expect(slack_client_mock).to receive(:ping)
+        expect { weather_bot.notify_forecast }.not_to raise_error
+      end
+    end
+
+    context "エラーが発生した時" do
+      before { allow(slack_client_mock).to receive(:ping).and_raise('エラーが発生しました') }
+
+      it 'エラーを通知すること' do
+        expect(weather_bot).to receive(:notify_error)
+        weather_bot.notify_forecast
+      end
     end
   end
 end

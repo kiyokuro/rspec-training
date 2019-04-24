@@ -9,9 +9,15 @@ class WeatherBot
 
   def notify_forecast
     slack_client.ping('明日は晴れです☀️')
+  rescue => e
+    notify_error(e)
   end
 
   def slack_client
     Slack::Notifier.new(WEBHOCK_URL)
+  end
+
+  def notify_error(error)
+    slack_client.ping(error)
   end
 end
